@@ -1,1 +1,1 @@
-Deployed URL great-haircut.surge.sh
+Deployed URL react-inbox.surge.sh

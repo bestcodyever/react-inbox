@@ -29,7 +29,6 @@ class App extends Component {
         prevState.messages[index].selected = true
     })
   }
-
   toggleSelectAll = () => {
     let lengthOfMessages = this.state.messages.length
     let selected = messageData.filter(item => item.selected === true).length
