@@ -29,13 +29,31 @@ class App extends Component {
         prevState.messages[index].selected = true
     })
   }
+
   toggleSelectAll = () => {
-        this.state.messages.forEach((e,i)=>{
-          this.setState((prevState)=>{
-          prevState.messages[i].selected = true
-        })
-      })
+    let lengthOfMessages = this.state.messages.length
+    let selected = messageData.filter(item => item.selected === true).length
+        if (lengthOfMessages > selected) {
+          let newMessages = this.state.messages.map((message,i)=>{
+              message.selected = true
+              return message
+            })
+            this.setState({
+              messages: newMessages
+            })
+       }
+      else {
+        let newMessages = this.state.messages.map((message,i)=>{
+            message.selected = false
+            return message
+          })
+          this.setState({
+            messages: newMessages
+          })
+        }
     }
+
+
 
 
   render() {

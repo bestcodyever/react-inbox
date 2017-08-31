@@ -4,25 +4,23 @@ const ToolBar = ({
   toggleSelectAll,
   messageData,
 }) => {
-const checkBox = () => {
-        var counter = 0
-        messageData.forEach((e,i)=>{
-          if (messageData[i].selected = true){
-            counter ++
-          }
-          else if(messageData[i].selected = false) {
-          }
-        })
-        if(counter === 0){
-          return `"fa fa-square-o"`
-        }
-        else if (counter === messageData.length){
-          return `"fa fa-check-square-o"`
-        }
-        else {return `"fa fa-minus-square-o"`}
-      }
 
+        var selectedMessages = messageData.filter(item => item.selected === true).length
+        var selectBox
+        var defaulted
+        if (selectedMessages === messageData.length) {
+          selectBox = `fa fa-check-square-o`
+        }
+          else if (selectedMessages === 0) {
+            selectBox = `fa fa-square-o`
+          }
+          else {
+            selectBox = `fa fa-minus-square-o`
+          }
 
+        if (selectedMessages === 0) {
+          defaulted = "disabled"
+        }
   return (
         <div className="row toolbar">
           <div className="col-md-12">
@@ -35,13 +33,13 @@ const checkBox = () => {
               <i className="fa fa-plus"></i>
             </a>
 
-            <button className="btn btn-default">
-              <i className="fa fa-minus-square-o" onClick={()=>toggleSelectAll()}></i>
+            <button className="btn btn-default" onClick={()=>toggleSelectAll()}>
+              <i className={ selectBox } ></i>
             </button>
 
-            <button className="btn btn-default">Mark As Read</button>
+            <button className="btn btn-default" disabled={ defaulted } >Mark As Read</button>
 
-            <button className="btn btn-default">Mark As Unread</button>
+            <button className="btn btn-default" disabled={ defaulted } >Mark As Unread</button>
 
             <select className="form-control label-select">
               <option>Apply label</option>
