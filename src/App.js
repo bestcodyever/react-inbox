@@ -35,6 +35,7 @@ class App extends Component {
         if (lengthOfMessages > selected) {
           let newMessages = this.state.messages.map((message,i)=>{
               message.selected = true
+
               return message
             })
             this.setState({
@@ -42,23 +43,47 @@ class App extends Component {
             })
        }
       else {
+        console.log(this.state.messages);
         let newMessages = this.state.messages.map((message,i)=>{
             message.selected = false
+            console.log(newMessages);
             return message
+
           })
           this.setState({
             messages: newMessages
           })
         }
     }
+  markAsRead = () => {
+    let readMessages = this.state.messages.map((message,i) => {
+      if (message.selected === true) {
+        message.read = true
+      }
+      return message
+    })
+    this.setState({
+      messages: readMessages
+    })
+  }
 
-
+  markAsUnread = () => {
+    let unreadMessages = this.state.messages.map((message,i) => {
+      if (message.selected === true) {
+        message.read = false
+      }
+      return message
+    })
+    this.setState({
+      messages: unreadMessages
+    })
+  }
 
 
   render() {
     return (
       <div>
-      <ToolBar messageData={messageData} toggleSelectAll={ this.toggleSelectAll.bind(this)} />
+      <ToolBar messageData={messageData} markAsRead={ this.markAsRead.bind(this)} markAsUnread={ this.markAsUnread.bind(this)} toggleSelectAll={ this.toggleSelectAll.bind(this)} />
       <MessageList messageData={messageData} isRead={ this.isRead } isStar={ this.isStar }  toggleSelected={ this.toggleSelected.bind(this) } toggleStar={ this.toggleStar.bind(this) } />
       </div>
     )

@@ -3,6 +3,8 @@ import React from 'react';
 const ToolBar = ({
   toggleSelectAll,
   messageData,
+  markAsRead,
+  markAsUnread
 }) => {
 
         var selectedMessages = messageData.filter(item => item.selected === true).length
@@ -37,9 +39,9 @@ const ToolBar = ({
               <i className={ selectBox } ></i>
             </button>
 
-            <button className="btn btn-default" disabled={ defaulted } >Mark As Read</button>
+            <button className="btn btn-default" disabled={ defaulted } onClick={ ()=> markAsRead()}>Mark As Read</button>
 
-            <button className="btn btn-default" disabled={ defaulted } >Mark As Unread</button>
+          <button className="btn btn-default" disabled={ defaulted } onClick={ ()=> markAsUnread()} >Mark As Unread</button>
 
             <select className="form-control label-select">
               <option>Apply label</option>
