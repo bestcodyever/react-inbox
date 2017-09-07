@@ -7,7 +7,6 @@ const Message = ({
 }) => {
 
 function isRead (read) { return read ? 'read' : 'unread' }
-// function isLabeled(labels){ return labels ? '' : '' }
 function isStar(starred){ return starred ? '' : '-o' }
 function isSelected(selected){ return selected ? ' selected' : '' }
 
@@ -24,6 +23,7 @@ function isSelected(selected){ return selected ? ' selected' : '' }
         </div>
       </div>
       <div className="col-xs-11">
+        {messageData.labels.map(label => <span className="label label-warning">{label}</span> )}
         <a href="">
           {messageData.subject}
         </a>

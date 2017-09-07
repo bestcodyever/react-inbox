@@ -4,30 +4,42 @@ const ToolBar = ({
   toggleSelectAll,
   messageData,
   markAsRead,
-  markAsUnread
+  markAsUnread,
+  totalUnreadMessages,
+  addLabel,
+  removeLabel
 }) => {
+  totalUnreadMessages = () => {
+    let counter = 0
+    messageData.forEach(message => {
+      if (message.read === false){
+        counter ++
+      }
+    })
+    return counter
+  }
+  var unread = totalUnreadMessages()
+  var selectedMessages = messageData.filter(item => item.selected === true).length
+  var selectBox
+  var defaulted
+  if (selectedMessages === messageData.length) {
+    selectBox = `fa fa-check-square-o`
+  }
+    else if (selectedMessages === 0) {
+      selectBox = `fa fa-square-o`
+    }
+    else {
+      selectBox = `fa fa-minus-square-o`
+    }
 
-        var selectedMessages = messageData.filter(item => item.selected === true).length
-        var selectBox
-        var defaulted
-        if (selectedMessages === messageData.length) {
-          selectBox = `fa fa-check-square-o`
-        }
-          else if (selectedMessages === 0) {
-            selectBox = `fa fa-square-o`
-          }
-          else {
-            selectBox = `fa fa-minus-square-o`
-          }
-
-        if (selectedMessages === 0) {
-          defaulted = "disabled"
-        }
+  if (selectedMessages === 0) {
+    defaulted = "disabled"
+  }
   return (
         <div className="row toolbar">
           <div className="col-md-12">
             <p className="pull-right">
-              <span className="badge badge">4</span>
+              <span className="badge badge">{ unread }</span>
               unread messages
             </p>
 
@@ -43,18 +55,18 @@ const ToolBar = ({
 
           <button className="btn btn-default" disabled={ defaulted } onClick={ ()=> markAsUnread()} >Mark As Unread</button>
 
-            <select className="form-control label-select">
+            <select className="form-control label-select" onChange={(event) => addLabel(event.target.value)}>
               <option>Apply label</option>
               <option value="dev">dev</option>
               <option value="personal">personal</option>
               <option value="gschool">gschool</option>
             </select>
 
-            <select className="form-control label-select">
+            <select className="form-control label-select" onChange={(event) => removeLabel(event.target.value)}>
               <option>Remove label</option>
-              <option value="dev">dev</option>
+              <option value="dev" >dev</option>
               <option value="personal">personal</option>
-              <option value="gschool">gschool</option>
+              <option value="gschool" >gschool</option>
             </select>
 
             <button className="btn btn-default">

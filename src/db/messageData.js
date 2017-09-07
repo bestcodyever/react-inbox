@@ -58,5 +58,3 @@ const messageData = [
     "labels": []
   }
 ]
-
-export default messageData
