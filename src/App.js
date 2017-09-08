@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import './App.css';
 import MessageList from './components/messageList';
 import ToolBar from './components/toolBar'
+import Compose from './components/compose'
 
 const baseURL = 'http://localhost:8082/api'
-// const baseURL = 'https://shielded-mountain-89870.herokuapp.com/apiloca'
+// const baseURL = 'https://shielded-mountain-89870.herokuapp.com/api'
 
 class App extends Component {
 
@@ -26,6 +27,24 @@ class App extends Component {
   }
 
   toggleStar = (message) => {
+    let starred = !message.starred
+    const body = {
+          "messageIds": [ message.id ],
+          "command": "star",
+          "star": starred
+    }
+    const settings = {
+      method: 'PATCH',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    }
+    console.log(body);
+    fetch(`${baseURL}/messages`, settings)
+      .then(data => {
+        console.log(data);
+      })
     this.setState((prevState) => {
       let index = prevState.messages.indexOf(message)
       prevState.messages[index].starred
@@ -102,12 +121,23 @@ removeLabel = (label) => {
     })
   })
 }
+destroyMessage = () => {
+  this.setState(prevState =>{
+    for (var i = prevState.messages.length -1; i >= 0; i--) {
+        if (prevState.messages[i].selected === true) {
+          prevState.messages.splice(i,1)
+        }
+      }
+    }
+  )}
+
 
 
   render() {
     return (
       <div>
-      <ToolBar messageData={this.state.messages} addLabel={ this.addLabel.bind(this) } removeLabel={ this.removeLabel.bind(this) }  markAsRead={ this.markAsRead.bind(this)} markAsUnread={ this.markAsUnread.bind(this)} toggleSelectAll={ this.toggleSelectAll.bind(this)} />
+      <ToolBar messageData={this.state.messages} destroyMessage={ this.destroyMessage.bind(this) } addLabel={ this.addLabel.bind(this) } removeLabel={ this.removeLabel.bind(this) }  markAsRead={ this.markAsRead.bind(this)} markAsUnread={ this.markAsUnread.bind(this)} toggleSelectAll={ this.toggleSelectAll.bind(this)} />
+      <Compose />
       <MessageList messageData={this.state.messages} isRead={ this.isRead } isStar={ this.isStar }  toggleSelected={ this.toggleSelected.bind(this) } toggleStar={ this.toggleStar.bind(this) } />
       </div>
     )

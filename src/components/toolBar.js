@@ -7,7 +7,8 @@ const ToolBar = ({
   markAsUnread,
   totalUnreadMessages,
   addLabel,
-  removeLabel
+  removeLabel,
+  destroyMessage
 }) => {
   totalUnreadMessages = () => {
     let counter = 0
@@ -69,7 +70,7 @@ const ToolBar = ({
               <option value="gschool" >gschool</option>
             </select>
 
-            <button className="btn btn-default">
+            <button className="btn btn-default" onClick ={ destroyMessage }>
               <i className="fa fa-trash-o"></i>
             </button>
           </div>
