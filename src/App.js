@@ -4,8 +4,8 @@ import MessageList from './components/messageList';
 import ToolBar from './components/toolBar'
 import Compose from './components/compose'
 
-const baseURL = 'http://localhost:8082/api'
-// const baseURL = 'https://shielded-mountain-89870.herokuapp.com/api'
+// const baseURL = 'http://localhost:8082/api'
+const baseURL = 'https://shielded-mountain-89870.herokuapp.com/api'
 
 class App extends Component {
 
@@ -122,12 +122,31 @@ removeLabel = (label) => {
   })
 }
 destroyMessage = () => {
+      const messageIds = []
   this.setState(prevState =>{
     for (var i = prevState.messages.length -1; i >= 0; i--) {
         if (prevState.messages[i].selected === true) {
+          messageIds.push(prevState.messages[i].id)
           prevState.messages.splice(i,1)
         }
       }
+
+      let body = {
+        "messageIds": messageIds,
+        "command": "delete"
+      }
+      const settingsDelete = {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+      fetch(`${baseURL}/messages`, settingsDelete)
+        .then(data => {
+          console.log(data);
+        })
     }
   )}
 
